@@ -1288,6 +1288,10 @@ void print_diet(Diet d)
 
 void main(string command)
 {
+	// Register the lowercase gCLI entrypoint without renaming the script that
+	// existing dependents invoke. KoLmafia preserves aliases between sessions.
+	cli_execute("alias consume => CONSUME");
+
 	// Accept any casing for command keywords while retaining the historical
 	// CONSUME.ash filename that other KoLmafia scripts invoke.
 	command = command.to_upper_case();
