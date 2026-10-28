@@ -12,7 +12,23 @@ Install this fork through KoLmafia's graphical CLI:
 git checkout donCannoli-burns/consume.ash
 ```
 
-Requires a recent KoLmafia build. If you already installed `soolar/CONSUME.ash`, remove the upstream checkout using KoLmafia's Script Manager (or the corresponding `git delete` command) before installing the fork. **Do not keep both checkouts managing the same scripts:** one may overwrite or delete the other's installed files during updates or uninstallation.
+Requires a recent KoLmafia build.
+
+### Using this fork alongside upstream
+
+The downstream fork has been used **with or without** `soolar/CONSUME.ash` installed. It keeps the same `CONSUME.ash` entrypoint and `CONSUME/` support-file paths so scripts that call the original filename can continue working. **Both Git checkouts manage overlapping files, however.** Installing or updating upstream may replace the active downstream version, and removing upstream may delete shared files. Keeping both repositories installed does not provide two independent copies of the script.
+
+**If you decide to remove upstream after installing this fork:**
+
+1. Remove **only the upstream** `soolar/CONSUME.ash` checkout through KoLmafia's Script Manager; leave `donCannoli-burns/consume.ash` installed.
+2. In the gCLI, run `git sync` to restore any support files deleted by removing upstream.
+3. Run `verify CONSUME` to confirm the script compiles and its imports resolve.
+4. Run `CONSUME HELP` to check the entrypoint and register the lowercase `consume => CONSUME` alias.
+5. Optionally run `consume sim value 6700` to preview a diet without executing it (change 6700 to your own adventure value).
+
+The **`git sync` step is important**: removing upstream can leave `CONSUME.ash` present while deleting its four imported support files. In that situation, `verify CONSUME` may report missing `CONSUME/INFO.ash`, `CONSUME/CONSTANTS.ash`, `CONSUME/RECORDS.ash`, and `CONSUME/HELPERS.ash`, followed by many misleading undefined-type/function errors. Running `git sync` restored these files and resolved that failure in a confirmed KoLmafia installation.
+
+If `git sync` does not repair the installation, check `git list` to confirm the downstream fork is still checked out before attempting to reinstall it. Avoid reinstalling upstream solely to recover its shared support files.
 
 ### Command and dependency compatibility
 
