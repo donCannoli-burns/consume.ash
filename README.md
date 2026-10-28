@@ -1,14 +1,37 @@
 # CONSUME.ash
 
-CONSUME.ash is a script that will handle your diet in Kingdom of Loathing for you.
+CONSUME.ash handles your Kingdom of Loathing diet. This is a compatibility-focused downstream fork of [soolar/CONSUME.ash](https://github.com/soolar/CONSUME.ash).
+
+**Downstream change:** command arguments are case-insensitive. Existing uppercase invocations keep working; there is no separate fork-specific command or filename.
 
 ## Installation
 
-Run this command in the graphical CLI:
-<pre>
-git checkout soolar/CONSUME.ash
-</pre>
-Will require [a recent build of KoLMafia](http://builds.kolmafia.us/job/Kolmafia/lastSuccessfulBuild/).
+Install this fork through KoLmafia's graphical CLI:
+
+```text
+git checkout donCannoli-burns/consume.ash
+```
+
+Requires a recent KoLmafia build. If you already installed `soolar/CONSUME.ash`, remove the upstream checkout using KoLmafia's Script Manager (or the corresponding `git delete` command) before installing the fork. **Do not keep both checkouts managing the same scripts:** one may overwrite or delete the other's installed files during updates or uninstallation.
+
+### Command and dependency compatibility
+
+The installed entrypoint remains `scripts/CONSUME.ash`, and its `CONSUME/` imports remain unchanged. Existing scripts that invoke `CONSUME.ash` by filename continue to use that entrypoint. The following commands now all accept mixed-case arguments:
+
+```text
+CONSUME HELP
+CONSUME help
+CONSUME all
+CONSUME nIgHtCaP sim
+CONSUME organs 1 2 3
+CONSUME value 5000 sim
+```
+
+On case-sensitive filesystems (including typical Linux installations), **keep the script filename/entrypoint uppercase** (`CONSUME` or `CONSUME.ash`). This change removes the uppercase *argument* restriction; it does not rename the script or guarantee that lowercase `consume` resolves to the uppercase file.
+
+**Dependency-manager limitation:** A script that simply runs `CONSUME.ash` can use this fork without edits. But a separate project's dependency declaration explicitly naming `github soolar/CONSUME.ash`, or a checkout-identity check for that upstream repository, is **not automatically redirected** to this fork. KoLmafia tracks Git checkouts separately, and automatic dependency installs/updates could reintroduce upstream and overwrite the installed file. Those declarations/checks need to be adjusted by the dependent project or handled explicitly during installation; this fork cannot intercept a package-manager checkout just by preserving the script filename.
+
+For a safe smoke check, run `CONSUME HELP` and `CONSUME help` and confirm that both display the same help. Use `CONSUME SIM` / `CONSUME sim` to compare planning behavior before running `ALL`, which actually consumes items.
 
 ## Usage
 
