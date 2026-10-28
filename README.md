@@ -27,7 +27,24 @@ CONSUME organs 1 2 3
 CONSUME value 5000 sim
 ```
 
-On case-sensitive filesystems (including typical Linux installations), **keep the script filename/entrypoint uppercase** (`CONSUME` or `CONSUME.ash`). This change removes the uppercase *argument* restriction; it does not rename the script or guarantee that lowercase `consume` resolves to the uppercase file.
+### Automatic lowercase gCLI alias
+
+Whenever `CONSUME.ash` starts, it runs the equivalent of this gCLI command:
+
+```text
+alias consume => CONSUME
+```
+
+KoLmafia saves aliases across sessions and characters. After the **first run** of the fork, these both work:
+
+```text
+consume all value 6700
+CONSUME all value 6700
+```
+
+To register the alias safely on a fresh install, execute `CONSUME HELP` once. A newly installed script cannot register an alias until it has actually run; do not expect a first-ever `consume` invocation to work before registration. The script repeats registration on later runs, so this intentionally replaces any other gCLI alias named `consume`. To remove it, run `unalias consume` (the next run of this fork will reinstall it).
+
+The physical script filename stays `CONSUME.ash` for case-sensitive Linux compatibility and dependent scripts. Lowercase gCLI invocations work via the alias, not via a renamed duplicate script.
 
 **Dependency-manager limitation:** A script that simply runs `CONSUME.ash` can use this fork without edits. But a separate project's dependency declaration explicitly naming `github soolar/CONSUME.ash`, or a checkout-identity check for that upstream repository, is **not automatically redirected** to this fork. KoLmafia tracks Git checkouts separately, and automatic dependency installs/updates could reintroduce upstream and overwrite the installed file. Those declarations/checks need to be adjusted by the dependent project or handled explicitly during installation; this fork cannot intercept a package-manager checkout just by preserving the script filename.
 
