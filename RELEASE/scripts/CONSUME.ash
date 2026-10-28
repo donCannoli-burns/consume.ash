@@ -1288,11 +1288,9 @@ void print_diet(Diet d)
 
 void main(string command)
 {
-	if(command.to_upper_case() != command)
-	{
-		print("CONSUME only accepts superior capital letters!", "red");
-		return;
-	}
+	// Accept any casing for command keywords while retaining the historical
+	// CONSUME.ash filename that other KoLmafia scripts invoke.
+	command = command.to_upper_case();
 
 	boolean simulate = true;
 	// this is set if SIM is present in the command, overrides NIGHTCAP and ALL
