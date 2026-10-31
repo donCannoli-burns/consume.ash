@@ -222,3 +222,8 @@ aurumbos (#2343846),
 Lyft (#3045223),
 and LordHaplo (#3165152),
 all of whom have made my time all the more worthwhile with their kind donations!
+
+## Don Report v1 (fork-only, read-only)
+
+The separate `RELEASE/scripts/CONSUME/DON_REPORT.ash` can be invoked with `call CONSUME/DON_REPORT.ash organ_state --quiet` or `skills_current --print`. The main `CONSUME.ash` optimizer and its `cli_execute` diet runner remain **unchanged**; this standalone observer has no diet-planning imports or mutation functions. `--diff` reports **KNOWN_UNKNOWN** until a prior validated report receipt exists. No relay hook, persistent JSON writer or listener is active. Source policy and canonical addresses are defined in [Don KoLFix](https://github.com/donCannoli-burns/don_kolfix/blob/main/docs/don-report-v1.md).
+
